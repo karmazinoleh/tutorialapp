@@ -1,6 +1,8 @@
 import { Component, output } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { CardComponent } from './card/card.component';
+import { FormsModule, FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 class User {
   id: number;
@@ -20,7 +22,7 @@ class User {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CardComponent],
+  imports: [RouterOutlet, RouterLink, CardComponent, FormsModule, ReactiveFormsModule],
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -42,5 +44,20 @@ export class AppComponent {
 
   addItem(item: string) {
     this.items.push(item);
+  }
+
+  someText : string = "";
+
+  showSomeText() {
+    alert(this.someText);
+  }
+
+  profileForm = new FormGroup({
+    name: new FormControl(''),
+    email: new FormControl(''),
+  });
+
+  handleSubmit() {
+    alert(this.profileForm.value.name + ' | ' + this.profileForm.value.email);
   }
 }

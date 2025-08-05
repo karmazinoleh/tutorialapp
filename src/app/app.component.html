@@ -225,8 +225,25 @@
           <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
         </defs>
       </svg>
-      <h1>Hello, {{ title }}</h1>
+      <h1>Hello, {{ title }}! City: 
+        @if (city == 'New York'){
+         {{ city }} 
+        } @else { 
+          Some other city 
+        }, {{ 1 + 1 }}</h1>
       <p>Congratulations! Your app is running. 🎉</p>
+      @for (user of users; track user.id){
+        {{ user.id }} – {{ user.name }}, {{ user.greeted }}<br>
+        <button (click)="user.greet()">Greet!</button>
+      }
+      <section (mouseover)="onMouseOver()"> {{ message }}</section>
+
+      <app-card slogan="Angular is awesome!" (addItemEvent)="addItem($event)" />
+      <p>🐢 all the way down {{ items.length }}</p>
+      @for (item of items; track item) {
+        <span class="item">{{ item }}</span>
+      }
+
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">

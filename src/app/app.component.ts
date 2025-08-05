@@ -2,7 +2,7 @@ import { Component, output } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CardComponent } from './card/card.component';
 import { FormsModule, FormControl, FormGroup } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 
 class User {
   id: number;
@@ -53,8 +53,8 @@ export class AppComponent {
   }
 
   profileForm = new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
   });
 
   handleSubmit() {

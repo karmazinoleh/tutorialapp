@@ -4,8 +4,12 @@ import { CardComponent } from './card/card.component';
 import { FormsModule, FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardService } from './card/card.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Observable } from "rxjs";
+import { NgIf, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'star',
 })
@@ -13,6 +17,40 @@ export class StarPipe implements PipeTransform {
   transform(value: string): string {
     return `⭐️ ${value} ⭐️`;
   }
+}
+
+// Product.ts
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  publisherId: number;
+  publisher: Publisher;
+  productDetails?: ProductDetails | null;
+  customers?: Customer[] | null;
+}
+
+// Customer.ts
+export interface Customer {
+  id: number;
+  name: string;
+  products: Product[]; // 
+}
+
+// ProductDetails.ts
+export interface ProductDetails {
+  id: number;
+  description?: string | null;
+  created: Date;
+  productId: number;
+  // product?: Product | null; // Якщо потрібно, можна додати
+}
+
+// Publisher.ts
+export interface Publisher {
+  publisherId: number;
+  name: string;
 }
 
 class User {
@@ -33,7 +71,7 @@ class User {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, CardComponent, FormsModule, ReactiveFormsModule, StarPipe],
+  imports: [AsyncPipe, NgIf, NgFor, HttpClientModule, RouterOutlet, RouterLink, CardComponent, FormsModule, ReactiveFormsModule, StarPipe],
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -76,4 +114,14 @@ export class AppComponent {
   displayBooks = this.cardService.getBooks().join(', ');
 
   tryStar : string = 'Angular is awesome!';
+
+  products$!: Observable<Product[]>;
+
+  constructor(private http: HttpClient) {
+  }
+
+  getProducts() {
+    this.products$ = this.http.get<Product[]>('http://localhost:5115/api/product');
+  }
+
 }

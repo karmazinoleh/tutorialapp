@@ -271,8 +271,14 @@
       <p> {{ displayBooks }} </p>
       <h3> {{ tryStar | star }} </h3>
 
-    </div>
+      <ng-container *ngIf="products$ | async as products">
+        <ul>
+          <li *ngFor="let product of products">{{ product.name }}</li>
+        </ul>
+      </ng-container>
+      <button (click)="getProducts()">Send request</button>
     
+    </div>
   </div>
 </main>
 

@@ -1,8 +1,19 @@
-import { Component, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CardComponent } from './card/card.component';
 import { FormsModule, FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { CardService } from './card/card.service';
+
+import {Pipe, PipeTransform} from '@angular/core';
+@Pipe({
+  name: 'star',
+})
+export class StarPipe implements PipeTransform {
+  transform(value: string): string {
+    return `⭐️ ${value} ⭐️`;
+  }
+}
 
 class User {
   id: number;
@@ -22,7 +33,7 @@ class User {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, CardComponent, FormsModule, ReactiveFormsModule],
+  imports: [RouterOutlet, RouterLink, CardComponent, FormsModule, ReactiveFormsModule, StarPipe],
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -60,4 +71,9 @@ export class AppComponent {
   handleSubmit() {
     alert(this.profileForm.value.name + ' | ' + this.profileForm.value.email);
   }
+
+  cardService = inject(CardService);
+  displayBooks = this.cardService.getBooks().join(', ');
+
+  tryStar : string = 'Angular is awesome!';
 }

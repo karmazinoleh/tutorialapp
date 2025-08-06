@@ -264,9 +264,12 @@
         <button type="submit" [disabled]="!profileForm.valid">Submit</button>
       </form>
 
-    <h2>Profile Form</h2>
-    <p>Name: {{ profileForm.value.name }}</p>
-    <p>Email: {{ profileForm.value.email }}</p>
+      <h2>Profile Form</h2>
+      <p>Name: {{ profileForm.value.name }}</p>
+      <p>Email: {{ profileForm.value.email }}</p>
+    
+      <p> {{ displayBooks }} </p>
+      <h3> {{ tryStar | star }} </h3>
 
     </div>
     
